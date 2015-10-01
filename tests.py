@@ -1,13 +1,20 @@
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
 import sys
+import os
 
 class DHCTest():
 
-    def __init__(self):
+    def __init__(self, username, password, auth_url, project):
         self.instance_name = 'libcloudtestinst'
         self.security_group_name = 'libcloudtestgroup'
         self.volume_name = "testvolume"
+
+        self.auth_username = username
+        self.auth_password = password
+        self.auth_url = auth_url
+        self.project_name = project
+        self.region_name = 'RegionOne'
 
     def test_all(self):
         self.connect()
@@ -39,19 +46,13 @@ class DHCTest():
     # Auth to DreamCompute
     def connect(self):
 
-        auth_username = 'username'
-        auth_password = 'password'
-        auth_url = 'https://keystone.dream.io'
-        project_name = 'project'
-        region_name = 'RegionOne'
-
         provider = get_driver(Provider.OPENSTACK)
-        self.conn = provider(auth_username,
-                        auth_password,
-                        ex_force_auth_url=auth_url,
+        self.conn = provider(self.auth_username,
+                        self.auth_password,
+                        ex_force_auth_url=self.auth_url,
                         ex_force_auth_version='2.0_password',
-                        ex_tenant_name=project_name,
-                        ex_force_service_region=region_name)
+                        ex_tenant_name=self.project_name,
+                        ex_force_service_region=self.region_name)
 
     # Get a list of images and return it.
     def list_images(self):
@@ -178,5 +179,13 @@ class DHCTest():
         if not instance.destroy():
             sys.exit(1)
 
-test = DHCTest()
+# Grab auth info from environment variables
+env = os.environ
+
+username = env['OS_USERNAME']
+password = env['OS_PASSWORD']
+auth_url = env['OS_AUTH_URL']
+project = env['OS_TENNANT_NAME']
+
+test = DHCTest(username, password, auth_url, project)
 test.test_all()
