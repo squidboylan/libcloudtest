@@ -190,7 +190,7 @@ project = env['OS_TENANT_NAME']
 # many auth_urls include the version. this will strip the version
 # declaration from the auth_url
 if 'v2.0' in auth_url:
-    auth_url = '/'.join(auth_url.split('v2.0')[:-1])
+    auth_url = '/'.join(auth_url.split('/v2.0')[:-1])
 
 test = DHCTest(username, password, auth_url, project)
 test.test_all()
