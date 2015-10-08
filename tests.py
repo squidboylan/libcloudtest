@@ -60,6 +60,9 @@ class DHCTest():
         print("Getting a list of images")
         images = self.conn.list_images()
 
+        for image in images:
+            print(image)
+
         return images
 
     # Get a list of flavors and return it.
@@ -67,20 +70,29 @@ class DHCTest():
         print("Getting a list of flavors")
         flavors = self.conn.list_sizes()
 
+        for flavor in flavors:
+            print(flavor)
+
         return flavors
 
     def list_security_groups(self):
         print("Getting a list of security groups")
         security_groups = self.conn.ex_list_security_groups()
 
+        for group in security_groups:
+            print(group)
+
         return security_groups
 
     # Get a list of instances and return it.
     def list_instances(self):
         print("Getting a list of instances")
-        instancelist = self.conn.list_nodes()
+        instance_list = self.conn.list_nodes()
 
-        return instancelist
+        for instance in instance_list:
+            print(instance)
+
+        return instance_list
 
     # Get the image that has the id passed in as an argument and return it
     def get_image(self, image_id):
