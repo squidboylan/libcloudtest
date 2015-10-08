@@ -185,7 +185,7 @@ env = os.environ
 username = env['OS_USERNAME']
 password = env['OS_PASSWORD']
 auth_url = env['OS_AUTH_URL']
-project = env['OS_TENNANT_NAME']
+project = env['OS_TENANT_NAME']
 
 test = DHCTest(username, password, auth_url, project)
 test.test_all()
